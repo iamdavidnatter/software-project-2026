@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { api } from "../api/client";
 import ComparePanel from "../components/ComparePanel";
 import ProgramCard from "../components/ProgramCard";
@@ -14,6 +14,7 @@ export default function ResultsPage() {
   const [modelFilter, setModelFilter] = useState("ALL");
   const [error, setError] = useState("");
   const [copyFeedback, setCopyFeedback] = useState("");
+  const [copyUrl, setCopyUrl] = useState("");
 
   useEffect(() => {
     if (!token) {
@@ -40,6 +41,13 @@ export default function ResultsPage() {
     }
     return result.recommendations.filter((item) => modelFilter === "ALL" || item.details.studyModel === modelFilter);
   }, [modelFilter, result]);
+
+  const favoriteRecommendations = useMemo(() => {
+    if (!result) {
+      return [];
+    }
+    return result.recommendations.filter((item) => result.favoriteProgramIds.includes(item.programId));
+  }, [result]);
 
   const toggleFavorite = async (programId: number) => {
     if (!result || !token) {
@@ -82,9 +90,27 @@ export default function ResultsPage() {
     if (!token) {
       return;
     }
-    await navigator.clipboard.writeText(`${window.location.origin}/results/${token}`);
-    setCopyFeedback("Link kopiert");
-    window.setTimeout(() => setCopyFeedback(""), 1800);
+    const url = `${window.location.origin}/results/${token}`;
+    setCopyUrl(url);
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = url;
+        textarea.setAttribute("readonly", "true");
+        textarea.style.position = "absolute";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+      setCopyFeedback("Link kopiert");
+    } catch {
+      setCopyFeedback("Link unten manuell kopieren");
+    }
+    window.setTimeout(() => setCopyFeedback(""), 2200);
   };
 
   if (!result) {
@@ -118,7 +144,11 @@ export default function ResultsPage() {
             <button type="button" className="ghost-button" onClick={handleCopyLink}>
               Persoenlichen Link kopieren
             </button>
+            <Link to="/" className="ghost-button">
+              Test neu starten
+            </Link>
           </div>
+          {copyUrl ? <input readOnly value={copyUrl} aria-label="Persoenlicher Ergebnis-Link" /> : null}
           {copyFeedback ? <p className="success-text">{copyFeedback}</p> : null}
         </div>
 
@@ -178,6 +208,34 @@ export default function ResultsPage() {
       </section>
 
       <ComparePanel programs={comparePrograms} />
+
+      <section className="card detail-card">
+        <div className="section-header">
+          <div>
+            <span className="eyebrow">Favoriten</span>
+            <h2>Gemerkte Studiengaenge</h2>
+          </div>
+          <p>{favoriteRecommendations.length === 0 ? "Noch nichts gespeichert" : `${favoriteRecommendations.length} Programme gespeichert`}</p>
+        </div>
+        {favoriteRecommendations.length === 0 ? (
+          <p>Markiere interessante Programme als Favorit. So kannst du sie gesammelt vergleichen, spaeter per Link wiederfinden und im PDF leichter nachverfolgen.</p>
+        ) : (
+          <div className="stack-list">
+            {favoriteRecommendations.map((item) => (
+              <div className="stack-item" key={item.programId}>
+                <div>
+                  <h4>{item.programName}</h4>
+                  <p>{item.details.shortDescription}</p>
+                </div>
+                <div className="stack-metrics">
+                  <strong>{item.score}%</strong>
+                  <span>{item.details.careerPaths[0]?.title ?? "Karrierepfad"}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       <section className="details-grid">
         <article className="card detail-card">

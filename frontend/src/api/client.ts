@@ -1,4 +1,5 @@
 import type {
+  AdminDashboard,
   AnswerPayload,
   Questionnaire,
   Result,
@@ -62,6 +63,7 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ programIds }),
     }),
+  getAdminDashboard: () => request<AdminDashboard>("/admin/dashboard"),
   downloadPdf: async (token: string) =>
     request<Blob>(`/results/${token}/pdf`, {
       headers: {},

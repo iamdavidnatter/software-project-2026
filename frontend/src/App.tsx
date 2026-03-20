@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 import LandingPage from "./pages/LandingPage";
 import QuestionnairePage from "./pages/QuestionnairePage";
 import ResultsPage from "./pages/ResultsPage";
@@ -9,6 +10,7 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/questionnaire/:sessionId" element={<QuestionnairePage />} />
       <Route path="/results/:token" element={<ResultsPage />} />
+      <Route path="/admin" element={<AdminDashboardPage />} />
     </Routes>
   );
 }

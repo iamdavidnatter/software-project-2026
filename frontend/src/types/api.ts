@@ -96,6 +96,32 @@ export type Result = {
   recommendations: Recommendation[];
 };
 
+export type ProgramInterestSummary = {
+  programId: number;
+  programName: string;
+  topRecommendationCount: number;
+  averageScore: number;
+  favoriteCount: number;
+};
+
+export type RecentResult = {
+  nickname: string;
+  generatedAt: string;
+  token: string;
+  topProgramName: string;
+  topScore: number;
+  availableHoursPerWeek: number;
+};
+
+export type AdminDashboard = {
+  totalSessions: number;
+  completedResults: number;
+  totalFavorites: number;
+  mostPopularStudyModel: string;
+  topPrograms: ProgramInterestSummary[];
+  recentResults: RecentResult[];
+};
+
 export type AnswerPayload = {
   questionKey: string;
   selectedValues?: string[];
