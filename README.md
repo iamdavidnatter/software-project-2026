@@ -86,6 +86,12 @@ export APP_FRONTEND_BASE_URL=http://localhost:5173
 export VITE_API_BASE_URL=http://localhost:8080/api
 ```
 
+Hinweis:
+
+- Auf demselben Rechner kannst du `VITE_API_BASE_URL` auch leer lassen. Dann nutzt das Frontend automatisch `http://<dein-hostname>:8080/api`.
+- Fuer QR-Code-/Handytests im WLAN setze `VITE_API_BASE_URL` am besten explizit auf die LAN-IP deines Rechners, z. B. `http://192.168.1.23:8080/api`.
+- Starte das Frontend fuer externe Geraete ueber Vite mit Host-Freigabe; das ist bereits in [vite.config.ts](/Users/benjaminkardumovic/IdeaProjects/software-project-2026/frontend/vite.config.ts) vorbereitet.
+
 ### 3. Backend starten
 
 ```bash

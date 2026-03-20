@@ -6,16 +6,25 @@ import type {
   StudyProgram,
 } from "../types/api";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080/api";
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL ??
+  `${window.location.protocol}//${window.location.hostname}:8080/api`;
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_BASE}${path}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...(init?.headers ?? {}),
-    },
-    ...init,
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}${path}`, {
+      headers: {
+        "Content-Type": "application/json",
+        ...(init?.headers ?? {}),
+      },
+      ...init,
+    });
+  } catch (error) {
+    throw new Error(
+      `Backend nicht erreichbar. Erwartete API unter ${API_BASE}. Bitte pruefe, ob Spring Boot auf Port 8080 laeuft und CORS korrekt gesetzt ist.`,
+    );
+  }
 
   if (!response.ok) {
     const error = await response.json().catch(() => null);
