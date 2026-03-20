@@ -124,6 +124,50 @@ Danach:
 - Backend: [http://localhost:8080](http://localhost:8080)
 - PostgreSQL: `localhost:5432`
 
+Hinweis:
+
+- Das Frontend laeuft im Docker-Setup jetzt als gebautes Nginx-Image.
+- API-Aufrufe auf `/api` werden serverseitig an den Backend-Container weitergeleitet.
+- Dadurch funktioniert das Setup auf beliebigen Hosts ohne Vite-Dev-Server im Produktivbetrieb.
+
+## GitHub Actions und vorgebaute Images
+
+Unter [.github/workflows/docker-images.yml](/Users/benjaminkardumovic/IdeaProjects/software-project-2026/.github/workflows/docker-images.yml) liegt eine GitHub Action, die bei Push auf `main` oder `testing` automatisch zwei Images nach GHCR baut und pusht:
+
+- `ghcr.io/<owner>/software-project-2026-backend`
+- `ghcr.io/<owner>/software-project-2026-frontend`
+
+Tags:
+
+- Branch-Tag, z. B. `testing`
+- Commit-SHA
+- `latest`
+
+Damit kann ein externer Docker-Host die Anwendung ohne lokalen Build direkt aus der Registry starten.
+
+## Deployment auf beliebigem Docker-Host
+
+Fuer einen Host ohne Quellcode-Build kannst du die vorgefertigten Images mit [docker-compose.deploy.yml](/Users/benjaminkardumovic/IdeaProjects/software-project-2026/docker-compose.deploy.yml) starten:
+
+```bash
+docker compose -f docker-compose.deploy.yml pull
+docker compose -f docker-compose.deploy.yml up -d
+```
+
+Optional mit eigener `.env`:
+
+```env
+POSTGRES_DB=studiengang_finder
+POSTGRES_USER=finder
+POSTGRES_PASSWORD=finder
+BACKEND_IMAGE=ghcr.io/iamdavidnatter/software-project-2026-backend:latest
+FRONTEND_IMAGE=ghcr.io/iamdavidnatter/software-project-2026-frontend:latest
+FRONTEND_PORT=80
+APP_FRONTEND_BASE_URL=http://dein-host
+```
+
+Danach ist die Anwendung unter `http://<host>:<FRONTEND_PORT>` erreichbar.
+
 ## Seed-Daten
 
 Beim ersten Start werden automatisch Beispiel-Studiengaenge erzeugt:

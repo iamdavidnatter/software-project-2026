@@ -3,36 +3,32 @@ version: "3.9"
 services:
   db:
     image: postgres:16
-    container_name: studiengangs-finder-db
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-studiengang_finder}
       POSTGRES_USER: ${POSTGRES_USER:-finder}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-finder}
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    build:
-      context: ./backend
+    image: ${BACKEND_IMAGE:-ghcr.io/iamdavidnatter/software-project-2026-backend:latest}
+    restart: unless-stopped
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-studiengang_finder}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-finder}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-finder}
-      APP_FRONTEND_BASE_URL: http://localhost:5173
+      APP_FRONTEND_BASE_URL: ${APP_FRONTEND_BASE_URL:-http://localhost}
     depends_on:
       - db
-    ports:
-      - "8080:8080"
 
   frontend:
-    build:
-      context: ./frontend
+    image: ${FRONTEND_IMAGE:-ghcr.io/iamdavidnatter/software-project-2026-frontend:latest}
+    restart: unless-stopped
     depends_on:
       - backend
     ports:
-      - "5173:80"
+      - "${FRONTEND_PORT:-80}:80"
 
 volumes:
   postgres_data:
