@@ -1,0 +1,372 @@
+:root {
+  --bg: #f4efe7;
+  --panel: rgba(255, 255, 255, 0.8);
+  --panel-strong: #fffdf8;
+  --text: #152322;
+  --muted: #5c6d69;
+  --accent: #0f766e;
+  --accent-dark: #0b4f4a;
+  --accent-soft: #c2ece5;
+  --highlight: #f97316;
+  --stroke: rgba(21, 35, 34, 0.08);
+  --shadow: 0 16px 50px rgba(30, 48, 48, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(249, 115, 22, 0.2), transparent 28%),
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.2), transparent 25%),
+    linear-gradient(180deg, #fbf7ef 0%, #eef4ef 100%);
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+}
+
+input {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  padding: 0.9rem 1rem;
+  background: #fff;
+}
+
+.page-shell {
+  width: min(1200px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1rem 0 4rem;
+}
+
+.narrow-shell {
+  width: min(760px, calc(100% - 1.25rem));
+}
+
+.card {
+  background: var(--panel);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--stroke);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+  font-weight: 800;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Space Grotesk", sans-serif;
+  margin: 0 0 0.6rem;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.landing-shell,
+.results-shell {
+  padding-top: 1.5rem;
+}
+
+.hero-panel,
+.hero-result {
+  display: grid;
+  gap: 1rem;
+}
+
+.hero-copy {
+  padding: 1.25rem 0.25rem;
+}
+
+.hero-copy h1,
+.spotlight-card h1 {
+  font-size: clamp(2.4rem, 7vw, 5rem);
+  line-height: 0.95;
+}
+
+.hero-points,
+.tag-row,
+.filter-row,
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hero-points span,
+.tag {
+  padding: 0.65rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--stroke);
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.hero-form,
+.question-card,
+.summary-card,
+.detail-card,
+.compare-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+label {
+  display: grid;
+  gap: 0.45rem;
+  font-weight: 700;
+}
+
+.primary-button,
+.ghost-button {
+  padding: 0.95rem 1.2rem;
+  border-radius: 18px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: white;
+  font-weight: 800;
+}
+
+.ghost-button {
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text);
+  border: 1px solid var(--stroke);
+  font-weight: 700;
+}
+
+.ghost-button.active,
+.option-card.selected,
+.scale-pill.selected {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+
+.wizard-head {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.progress-shell {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+}
+
+.progress-track {
+  width: 100%;
+  height: 12px;
+  background: rgba(15, 118, 110, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--highlight), var(--accent));
+}
+
+.option-grid,
+.scale-grid,
+.result-grid,
+.details-grid,
+.compare-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.option-card,
+.scale-pill {
+  padding: 1rem;
+  border-radius: 22px;
+  background: white;
+  border: 1px solid var(--stroke);
+  text-align: left;
+  font-weight: 700;
+}
+
+.scale-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.wizard-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.result-card.top,
+.spotlight-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 248, 240, 0.95)),
+    var(--panel);
+}
+
+.result-head,
+.section-header,
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.score-badge,
+.score-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--highlight), #f59e0b);
+  color: white;
+  font-weight: 800;
+}
+
+.score-badge {
+  min-width: 72px;
+  min-height: 72px;
+}
+
+.score-hero {
+  width: fit-content;
+  padding: 0.75rem 1rem;
+}
+
+.mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.mini-stats div,
+.summary-list div {
+  padding: 0.9rem;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 20px;
+}
+
+.mini-stats span,
+.summary-list h4,
+.section-list h4,
+.compare-card dt {
+  color: var(--muted);
+  margin: 0 0 0.35rem;
+}
+
+.section-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.section-list ul,
+.checklist {
+  padding-left: 1.1rem;
+  margin: 0;
+}
+
+.timeline {
+  display: grid;
+  gap: 1rem;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.compare-card {
+  padding: 1rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.compare-card dl {
+  margin: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.compare-card dd {
+  margin: 0 0 0.4rem;
+  color: var(--text);
+}
+
+.toolbar {
+  margin: 1.5rem 0 1rem;
+}
+
+.error-text {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.success-text {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .hero-panel,
+  .hero-result {
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: start;
+  }
+
+  .wizard-head {
+    grid-template-columns: 1fr 320px;
+    align-items: end;
+  }
+
+  .result-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .details-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 1rem;
+  }
+
+  .compare-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
