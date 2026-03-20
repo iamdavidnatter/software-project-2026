@@ -89,8 +89,9 @@ export VITE_API_BASE_URL=http://localhost:8080/api
 Hinweis:
 
 - Auf demselben Rechner kannst du `VITE_API_BASE_URL` auch leer lassen. Dann nutzt das Frontend automatisch `http://<dein-hostname>:8080/api`.
-- Fuer QR-Code-/Handytests im WLAN setze `VITE_API_BASE_URL` am besten explizit auf die LAN-IP deines Rechners, z. B. `http://192.168.1.23:8080/api`.
-- Starte das Frontend fuer externe Geraete ueber Vite mit Host-Freigabe; das ist bereits in [vite.config.ts](/Users/benjaminkardumovic/IdeaProjects/software-project-2026/frontend/vite.config.ts) vorbereitet.
+- Standardmaessig nutzt das Frontend nun einen lokalen Dev-Proxy auf `/api`. Dadurch muessen Browser und Handy die Backend-IP nicht direkt kennen.
+- Fuer lokale Entwicklung zeigt der Proxy standardmaessig auf `http://localhost:8080`. Das kannst du ueber `VITE_PROXY_TARGET` aendern.
+- Starte das Frontend nach Aenderungen an den Env-Werten neu, damit Vite die Konfiguration uebernimmt.
 
 ### 3. Backend starten
 

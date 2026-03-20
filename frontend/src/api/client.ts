@@ -6,9 +6,7 @@ import type {
   StudyProgram,
 } from "../types/api";
 
-const API_BASE =
-  import.meta.env.VITE_API_BASE_URL ??
-  `${window.location.protocol}//${window.location.hostname}:8080/api`;
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "/api";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let response: Response;
